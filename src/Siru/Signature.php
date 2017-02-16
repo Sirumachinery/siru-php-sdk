@@ -129,14 +129,14 @@ class Signature {
     /**
      * Validates response signature received from Siru API.
      * 
-     * The response fields are sent as GET parameters when user is redrected back to your site.
-     * If you provided notifyAfter* URLs, the fields are in message body of notification
-     * as a JSON object. Remember to convert JSON object to array before passing to this method.
+     * The fields are sent as GET parameters when user is redrected back to your site.
+     * If you provided notifyAfter* URLs, the fields are in message body as JSON object.
+     * Remember to convert JSON object to array before passing to this method.
      * 
      * @param  array   $fields Response fields
      * @return boolean         True if signature is valid, otherwise false
      */
-    public function isResponseAuthentic(array $fields)
+    public function isNotificationAuthentic(array $fields)
     {
         if(isset($fields['siru_signature']) === false) {
             return false;

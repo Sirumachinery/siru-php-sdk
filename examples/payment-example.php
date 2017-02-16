@@ -46,7 +46,7 @@ if(isset($_GET['siru_event'])) {
     echo "<p>";
 
     // Validate signature sent by Siru
-    $isValidEvent = $signature->isResponseAuthentic($_GET);
+    $isValidEvent = $signature->isNotificationAuthentic($_GET);
     if($isValidEvent === false) {
         echo 'Response is <strong style="color: #f77">INVALID</strong><br/>';
     } else {
