@@ -20,12 +20,6 @@ abstract class AbstractAPI {
     protected $signature;
 
     /**
-     * Siru API endpoint host name
-     * @var string
-     */
-    private $endpoint;
-
-    /**
      * GuzzleHttp client for making requests.
      * @var Client
      */
@@ -35,16 +29,19 @@ abstract class AbstractAPI {
      * Signature object and API endpoint address are required.
      * 
      * @param Signature $signature
-     * @param string    $endpoint
+     * @param Client    $client
      * @todo  should we allow user to set defaults to client??
      * @todo  could we remove dependency to Guzzle?
      */
-    public function __construct(Signature $signature, $endpoint)
+    public function __construct(Signature $signature, Client $client)
     {
         $this->signature = $signature;
-        $this->endpoint = $endpoint;
+        $this->setGuzzleClient($client);
+    }
 
-        $this->client = new Client(['base_uri' => $endpoint, 'verify' => false]);
+    public function setGuzzleClient(Client $client)
+    {
+        $this->client = $client;
     }
 
     /**
@@ -54,6 +51,7 @@ abstract class AbstractAPI {
      * @param  string $method HTTP method GET or POST
      * @param  array  $fields Values that are sent to API
      * @return array          Array where first index is HTTP status and second is response body
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function send($path, $method = 'GET', array $fields = [])
     {

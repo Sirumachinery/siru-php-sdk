@@ -8,7 +8,7 @@ use Siru\Exception\ApiException;
 /**
  * API to create new pending payment to Siru Mobile API.
  * API returns payment UUID and URL where user should be redirected to confirm payment.
- * From there user is redrected back to one of your redirectAfter* URLs.
+ * From there user is redirected back to one of your redirectAfter* URLs.
  */
 class Payment extends AbstractAPI {
 
@@ -23,7 +23,6 @@ class Payment extends AbstractAPI {
     private $signatureFields = [
         'basePrice',
         'customerReference',
-        'instantPay',
         'merchantId',
         'notifyAfterCancel',
         'notifyAfterFailure',
@@ -79,6 +78,7 @@ class Payment extends AbstractAPI {
 
     /**
      * Returns list of fields in correct order that are included when calculating signature for select variant.
+     *
      * @param  string $variant Variant name
      * @return array
      */
@@ -101,8 +101,9 @@ class Payment extends AbstractAPI {
      * user should be redirected next to make payment.
      * 
      * @return array
-     * @throws Siru\Exception\InvalidResponseException
-     * @throws Siru\Exception\ApiException
+     * @throws InvalidResponseException
+     * @throws ApiException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createPayment()
     {

@@ -1,6 +1,13 @@
 <?php
 namespace Siru;
 
+use GuzzleHttp\Client;
+use Siru\API\FeaturePhone;
+use Siru\API\OperationalStatus;
+use Siru\API\Payment;
+use Siru\API\Price;
+use Siru\API\PurchaseStatus;
+
 /**
  * This class is used to create instances of different API objects which in turn are used to call different API methods.
  */
@@ -44,9 +51,7 @@ class API {
      */
     public function useStagingEndpoint()
     {
-        $this->endPoint = self::ENDPOINT_STAGING;
-
-        return $this;
+        return $this->setEndpointUrl(self::ENDPOINT_STAGING);
     }
 
     /**
@@ -56,9 +61,19 @@ class API {
      */
     public function useProductionEndpoint()
     {
-        $this->endPoint = self::ENDPOINT_PRODUCTION;
+        return $this->setEndpointUrl(self::ENDPOINT_PRODUCTION);
+    }
+
+    public function setEndpointUrl($url)
+    {
+        $this->endPoint = $url;
 
         return $this;
+    }
+
+    public function getEndpointUrl()
+    {
+        return $this->endPoint;
     }
 
     /**
@@ -106,6 +121,11 @@ class API {
         return $this->defaults;
     }
 
+    public function getGuzzleClient()
+    {
+        return new Client(['base_uri' => $this->endPoint, 'verify' => false]);
+    }
+
     /**
      * Returns Payment API object.
      * All default values set using setDefaults() are automatically passed to Payment API object.
@@ -114,7 +134,7 @@ class API {
      */
     public function getPaymentApi()
     {
-        $api = new API\Payment($this->signature, $this->endPoint);
+        $api = new Payment($this->signature, $this->getGuzzleClient());
 
         array_walk($this->defaults, function($value, $key) use ($api) {
             $api->set($key, $value);
@@ -131,7 +151,7 @@ class API {
      */
     public function getPurchaseStatusApi()
     {
-        $api = new API\PurchaseStatus($this->signature, $this->endPoint);
+        $api = new PurchaseStatus($this->signature, $this->getGuzzleClient());
 
         return $api;
     }
@@ -143,7 +163,7 @@ class API {
      */
     public function getPriceApi()
     {
-        $api = new API\Price($this->signature, $this->endPoint);
+        $api = new Price($this->signature, $this->getGuzzleClient());
 
         return $api;
     }
@@ -155,7 +175,7 @@ class API {
      */
     public function getFeaturePhoneApi()
     {
-        $api = new API\FeaturePhone($this->signature, $this->endPoint);
+        $api = new FeaturePhone($this->signature, $this->getGuzzleClient());
 
         return $api;
     }
@@ -167,7 +187,7 @@ class API {
      */
     public function getOperationalStatusApi()
     {
-        $api = new API\OperationalStatus($this->signature, $this->endPoint);
+        $api = new OperationalStatus($this->signature, $this->getGuzzleClient());
 
         return $api;
     }
