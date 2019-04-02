@@ -1,7 +1,7 @@
 <?php
 namespace Siru\Tests;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use PHPUnit\Framework\TestCase;
 use Siru\API;
 use Siru\Signature;
@@ -93,11 +93,35 @@ class APITest extends TestCase
         $this->api->setEndpointUrl($url);
         $client = $this->api->getGuzzleClient();
 
-        $this->assertInstanceOf(Client::class, $client);
+        $this->assertInstanceOf(ClientInterface::class, $client);
 
         $config = self::getProperty($client, 'config');
         $this->assertArrayHasKey('base_uri', $config);
         $this->assertEquals($url, $config['base_uri']);
+    }
+
+    /**
+     * @test
+     */
+    public function canOverrideGuzzleClient()
+    {
+        $mock = $this->createMock(ClientInterface::class);
+        $this->api->setGuzzleClient($mock);
+
+        $this->assertSame($mock, $this->api->getGuzzleClient());
+    }
+
+    /**
+     * @test
+     */
+    public function returnsExpectedApiClasses()
+    {
+        $this->assertInstanceOf(API\Payment::class, $this->api->getPaymentApi());
+        $this->assertInstanceOf(API\PurchaseStatus::class, $this->api->getPurchaseStatusApi());
+        $this->assertInstanceOf(API\FeaturePhone::class, $this->api->getFeaturePhoneApi());
+        $this->assertInstanceOf(API\OperationalStatus::class, $this->api->getOperationalStatusApi());
+        $this->assertInstanceOf(API\Price::class, $this->api->getPriceApi());
+        $this->assertInstanceOf(API\Kyc::class, $this->api->getKycApi());
     }
 
     /**

@@ -23,6 +23,7 @@ class Payment extends AbstractAPI {
     private $signatureFields = [
         'basePrice',
         'customerReference',
+        'customerPersonalId',
         'merchantId',
         'notifyAfterCancel',
         'notifyAfterFailure',

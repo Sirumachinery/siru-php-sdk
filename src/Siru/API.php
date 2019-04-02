@@ -2,7 +2,9 @@
 namespace Siru;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Siru\API\FeaturePhone;
+use Siru\API\Kyc;
 use Siru\API\OperationalStatus;
 use Siru\API\Payment;
 use Siru\API\Price;
@@ -15,6 +17,11 @@ class API {
 
     const ENDPOINT_STAGING = 'https://staging.sirumobile.com';
     const ENDPOINT_PRODUCTION = 'https://payment.sirumobile.com';
+
+    /**
+     * @var ClientInterface|null
+     */
+    private $guzzleClient;
     
     /**
      * Signature creator.
@@ -121,9 +128,26 @@ class API {
         return $this->defaults;
     }
 
+    /**
+     * @return Client
+     */
     public function getGuzzleClient()
     {
-        return new Client(['base_uri' => $this->endPoint, 'verify' => false]);
+        if ($this->guzzleClient === null) {
+            $this->guzzleClient = new Client(['base_uri' => $this->endPoint, 'verify' => false]);
+        }
+        return $this->guzzleClient;
+    }
+
+    /**
+     * Sets guzzle client that will be used for API requests.
+     * Note that setting the client here will override selected endpoint URL.
+     *
+     * @param ClientInterface $client
+     */
+    public function setGuzzleClient(ClientInterface $client)
+    {
+        $this->guzzleClient = $client;
     }
 
     /**
@@ -141,17 +165,28 @@ class API {
         });
 
         return $api;
-
     }
 
     /**
      * Returns Purchase status API object. Used for retrieving single payment status or search payments.
-     * 
+     *
      * @return PurchaseStatus
      */
     public function getPurchaseStatusApi()
     {
         $api = new PurchaseStatus($this->signature, $this->getGuzzleClient());
+
+        return $api;
+    }
+
+    /**
+     * Returns KYC API object. Used for KYC data of successful payments.
+     *
+     * @return Kyc
+     */
+    public function getKycApi()
+    {
+        $api = new Kyc($this->signature, $this->getGuzzleClient());
 
         return $api;
     }
