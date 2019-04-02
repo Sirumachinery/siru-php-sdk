@@ -30,8 +30,6 @@ abstract class AbstractAPI {
      * 
      * @param Signature          $signature
      * @param ClientInterface    $client
-     * @todo  should we allow user to set defaults to client??
-     * @todo  could we remove dependency to Guzzle?
      */
     public function __construct(Signature $signature, ClientInterface $client)
     {

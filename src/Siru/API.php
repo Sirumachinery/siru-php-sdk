@@ -2,6 +2,7 @@
 namespace Siru;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Siru\API\FeaturePhone;
 use Siru\API\Kyc;
 use Siru\API\OperationalStatus;
@@ -16,6 +17,11 @@ class API {
 
     const ENDPOINT_STAGING = 'https://staging.sirumobile.com';
     const ENDPOINT_PRODUCTION = 'https://payment.sirumobile.com';
+
+    /**
+     * @var ClientInterface|null
+     */
+    private $guzzleClient;
     
     /**
      * Signature creator.
@@ -127,7 +133,21 @@ class API {
      */
     public function getGuzzleClient()
     {
-        return new Client(['base_uri' => $this->endPoint, 'verify' => false]);
+        if ($this->guzzleClient === null) {
+            $this->guzzleClient = new Client(['base_uri' => $this->endPoint, 'verify' => false]);
+        }
+        return $this->guzzleClient;
+    }
+
+    /**
+     * Sets guzzle client that will be used for API requests.
+     * Note that setting the client here will override selected endpoint URL.
+     *
+     * @param ClientInterface $client
+     */
+    public function setGuzzleClient(ClientInterface $client)
+    {
+        $this->guzzleClient = $client;
     }
 
     /**
@@ -145,7 +165,6 @@ class API {
         });
 
         return $api;
-
     }
 
     /**
