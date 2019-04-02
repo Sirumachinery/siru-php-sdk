@@ -1,9 +1,9 @@
 <?php
 namespace Siru\API;
 
+use GuzzleHttp\ClientInterface;
 use Siru\Signature;
 use Siru\Exception\InvalidResponseException;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 
 /**
@@ -21,25 +21,25 @@ abstract class AbstractAPI {
 
     /**
      * GuzzleHttp client for making requests.
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
     /**
      * Signature object and API endpoint address are required.
      * 
-     * @param Signature $signature
-     * @param Client    $client
+     * @param Signature          $signature
+     * @param ClientInterface    $client
      * @todo  should we allow user to set defaults to client??
      * @todo  could we remove dependency to Guzzle?
      */
-    public function __construct(Signature $signature, Client $client)
+    public function __construct(Signature $signature, ClientInterface $client)
     {
         $this->signature = $signature;
         $this->setGuzzleClient($client);
     }
 
-    public function setGuzzleClient(Client $client)
+    public function setGuzzleClient(ClientInterface $client)
     {
         $this->client = $client;
     }
