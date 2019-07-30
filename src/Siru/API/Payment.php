@@ -22,6 +22,7 @@ class Payment extends AbstractAPI {
      */
     private $signatureFields = [
         'basePrice',
+        'currency',
         'customerReference',
         'customerPersonalId',
         'merchantId',
