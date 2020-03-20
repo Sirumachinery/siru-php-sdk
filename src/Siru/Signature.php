@@ -79,7 +79,7 @@ class Signature {
     {
         $fields = array_merge(['merchantId' => $this->merchantId], $fields);
 
-        if(empty($signedFields) == false) {
+        if(empty($signedFields) === false) {
             $fields = $this->extractSelectFields($fields, $signedFields);
         }
 

@@ -174,9 +174,7 @@ class API {
      */
     public function getPurchaseStatusApi()
     {
-        $api = new PurchaseStatus($this->signature, $this->getGuzzleClient());
-
-        return $api;
+        return new PurchaseStatus($this->signature, $this->getGuzzleClient());
     }
 
     /**
@@ -186,9 +184,7 @@ class API {
      */
     public function getKycApi()
     {
-        $api = new Kyc($this->signature, $this->getGuzzleClient());
-
-        return $api;
+        return new Kyc($this->signature, $this->getGuzzleClient());
     }
 
     /**
@@ -198,9 +194,7 @@ class API {
      */
     public function getPriceApi()
     {
-        $api = new Price($this->signature, $this->getGuzzleClient());
-
-        return $api;
+        return new Price($this->signature, $this->getGuzzleClient());
     }
 
     /**
@@ -210,9 +204,7 @@ class API {
      */
     public function getFeaturePhoneApi()
     {
-        $api = new FeaturePhone($this->signature, $this->getGuzzleClient());
-
-        return $api;
+        return new FeaturePhone($this->signature, $this->getGuzzleClient());
     }
 
     /**
@@ -222,9 +214,7 @@ class API {
      */
     public function getOperationalStatusApi()
     {
-        $api = new OperationalStatus($this->signature, $this->getGuzzleClient());
-
-        return $api;
+        return new OperationalStatus($this->signature, $this->getGuzzleClient());
     }
 
 }

@@ -57,7 +57,7 @@ abstract class AbstractAPI {
 
         if($method === 'GET') {
             $options['query'] = $fields;
-        } elseif(!empty($fields)) {
+        } elseif(empty($fields) === false) {
             $options['json'] = $fields;
         }
 
@@ -80,7 +80,7 @@ abstract class AbstractAPI {
      */
     protected function parseJson($body)
     {
-        if(empty($body) == false) {
+        if(empty($body) === false) {
             $json = json_decode($body, true);
         }
 
