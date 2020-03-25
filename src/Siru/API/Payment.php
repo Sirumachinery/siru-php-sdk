@@ -124,7 +124,7 @@ class Payment extends AbstractAPI
         }
 
         if($json['success'] == false) {
-            throw $this->createErrorException($json, $body);
+            throw $this->createException($httpCode, $json, $body);
         }
 
         return [
@@ -133,7 +133,7 @@ class Payment extends AbstractAPI
         ];
     }
 
-    private function createErrorException(array $json, $body) : ApiException
+    protected function createException(?int $httpStatus, $json, string $body) : ApiException
     {
         if(isset($json['errors'])) {
             $errorStack = $json['errors'];
@@ -141,7 +141,7 @@ class Payment extends AbstractAPI
             $errorStack = [];
         }
 
-        return new ApiException('An error occured while initiating payment.', 0, null, $body, $errorStack);
+        return new ApiException('An error occurred while initiating payment.', $httpStatus ?: 0, null, $body, $errorStack);
     }
 
 }

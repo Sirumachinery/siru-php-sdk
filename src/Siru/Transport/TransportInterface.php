@@ -22,7 +22,7 @@ interface TransportInterface
      * @param array $fields
      * @param string $endPoint
      * @param string $method
-     * @return array Array where index 0 is HTTP status code and index 1 is the response body
+     * @return array Index 0 is HTTP status code as integer or null and index 1 is the response body as string
      */
     public function request(array $fields, string $endPoint, string $method = 'GET') : array;
 

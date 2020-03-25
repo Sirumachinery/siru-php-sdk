@@ -46,7 +46,7 @@ class Price extends AbstractAPI
         return $json['finalCallPrice'];
     }
 
-    private function createException($httpCode, $json, $body) : ApiException
+    protected function createException(?int $httpStatus, $json, string $body) : ApiException
     {
         if(isset($json['error']) && is_string($json['error'])) {
             $message = $json['error'];
@@ -54,7 +54,7 @@ class Price extends AbstractAPI
             $message = 'Unknown error';
         }
 
-        return new ApiException($message, 0, null, $body);
+        return new ApiException($message, $httpStatus ?: 0, null, $body);
     }
 
 }

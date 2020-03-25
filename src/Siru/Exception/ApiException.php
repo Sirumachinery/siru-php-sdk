@@ -6,7 +6,8 @@ namespace Siru\Exception;
  * In case of Payment API, there can be multiple error messages returned at once. You can retrieve list
  * of these using getErrorStack().
  */
-class ApiException extends AbstractApiException {
+class ApiException extends AbstractApiException
+{
     
     private $errorStack = [];
 
@@ -22,7 +23,7 @@ class ApiException extends AbstractApiException {
      * 
      * @return array
      */
-    public function getErrorStack()
+    public function getErrorStack() : array
     {
         return $this->errorStack;
     }

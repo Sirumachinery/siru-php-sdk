@@ -32,15 +32,4 @@ class FeaturePhone extends AbstractAPI
         return $json['ipPaymentsEnabled'] == true;
     }
 
-    private function createException($httpCode, $json, $body) : ApiException
-    {
-        if(isset($json['error']['message'])) {
-            $message = $json['error']['message'];
-        } else {
-            $message = 'Unknown error';
-        }
-
-        return new ApiException($message, 0, null, $body);
-    }
-
 }

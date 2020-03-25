@@ -161,23 +161,4 @@ class PurchaseStatus extends AbstractAPI
         return $json;        
     }
 
-    /**
-     * Creates an exception if error has occured.
-     * 
-     * @param  int            $httpStatus
-     * @param  array          $json
-     * @param  string         $body
-     * @return ApiException
-     */
-    private function createException($httpStatus, $json, $body)
-    {
-        if(isset($json['error']['message'])) {
-            $message = $json['error']['message'];
-        } else {
-            $message = 'Unknown error';
-        }
-
-        return new ApiException($message, 0, null, $body);
-    }
-
 }

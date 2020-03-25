@@ -1,6 +1,7 @@
 <?php
 namespace Siru\API;
 
+use Siru\Exception\ApiException;
 use Siru\Exception\InvalidResponseException;
 use Siru\Signature;
 use Siru\Transport\TransportInterface;
@@ -50,6 +51,25 @@ abstract class AbstractAPI
         }
 
         return $json;
+    }
+
+    /**
+     * Creates an exception if error has occurred.
+     *
+     * @param  int|null       $httpStatus
+     * @param  array          $json
+     * @param  string         $body
+     * @return ApiException
+     */
+    protected function createException(?int $httpStatus, $json, string $body) : ApiException
+    {
+        if(isset($json['error']['message'])) {
+            $message = $json['error']['message'];
+        } else {
+            $message = 'Unknown error';
+        }
+
+        return new ApiException($message, $httpStatus ?: 0, null, $body);
     }
 
 }
