@@ -16,9 +16,8 @@ abstract class LegacyApi
 
     /**
      * @param TransportInterface $transport
-     * @return static
      */
-    abstract protected function setTransport(TransportInterface $transport) : self;
+    abstract protected function setTransport(TransportInterface $transport);
 
     /**
      * @return ClientInterface
