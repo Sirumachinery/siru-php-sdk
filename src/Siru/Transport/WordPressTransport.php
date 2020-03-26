@@ -41,7 +41,7 @@ class WordPressTransport implements TransportInterface
         }
 
         if (is_wp_error($response) === true) {
-            throw new TransportException($response->get_error_message(), $response->get_error_code());
+            throw new TransportException($response->get_error_message());
         }
 
         /** @var int|string $httpCode Http status code or empty string */
