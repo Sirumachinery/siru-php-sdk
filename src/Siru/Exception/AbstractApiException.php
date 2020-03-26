@@ -1,7 +1,7 @@
 <?php
 namespace Siru\Exception;
 
-abstract class AbstractApiException extends \Exception {
+abstract class AbstractApiException extends \RuntimeException {
 
     private $responseBody = false;
 

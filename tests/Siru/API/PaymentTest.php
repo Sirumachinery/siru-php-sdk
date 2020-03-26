@@ -73,7 +73,7 @@ class PaymentTest extends AbstractApiTest
                 return $expected === $fields;
             }), '/payment.json')
             ->willReturn([
-                200,
+                201,
                 '{"success":true,"purchase": {"uuid":"f9503276-80bc-4f0e-a995-16c4c7e9d0f7","redirect":"https://payment.sirumobile.com/payment/call/f9503276-80bc-4f0e-a995-16c4..."}}'
             ]);
 

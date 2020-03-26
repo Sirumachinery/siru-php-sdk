@@ -2,7 +2,6 @@
 namespace Siru\API;
 
 use Siru\Exception\ApiException;
-use Siru\Exception\InvalidResponseException;
 
 /**
  * Siru KYC API methods.
@@ -27,7 +26,6 @@ class Kyc extends AbstractAPI
      * 
      * @param  string $uuid Uuid received from Payment API
      * @return array        KYC data as an array
-     * @throws InvalidResponseException
      * @throws ApiException
      */
     public function findKycByUuid(string $uuid) : array
@@ -36,27 +34,7 @@ class Kyc extends AbstractAPI
 
         list($httpStatus, $body) = $this->transport->request($fields, '/payment/kyc');
 
-        return $this->parseResponse($httpStatus, $body);
-    }
-
-    /**
-     * Checks HTTP status code and parses response body to JSON.
-     * 
-     * @param  int    $httpStatus
-     * @param  string $body
-     * @return array
-     * @throws InvalidResponseException
-     * @throws ApiException
-     */
-    private function parseResponse($httpStatus, string $body) : array
-    {
-        $json = $this->parseJson($body);
-
-        if($httpStatus <> 200) {
-            throw $this->createException($httpStatus, $json, $body);
-        }
-        
-        return $json;        
+        return $this->parseJson($body);
     }
 
 }

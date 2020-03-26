@@ -57,10 +57,7 @@ class KycTest extends AbstractApiTest
         $this->transport
             ->expects($this->once())
             ->method('request')
-            ->willReturn([
-                404,
-                '{"error":{"code":404,"message":"Not Found"}}'
-            ]);
+            ->willThrowException(ApiException::create(404, '{"error":{"code":404,"message":"Not Found"}}'));
 
         $this->expectException(ApiException::class);
         $this->expectExceptionCode(404);

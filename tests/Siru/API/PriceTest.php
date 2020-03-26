@@ -56,10 +56,7 @@ class PriceTest extends AbstractApiTest
         $this->transport
             ->expects($this->once())
             ->method('request')
-            ->willReturn([
-                503,
-                '{"error":"Sailing the failboat"}'
-            ]);
+            ->willThrowException(ApiException::create(503, '{"error":"Sailing the failboat"}'));
 
         $this->expectException(ApiException::class);
         $this->expectExceptionCode(503);

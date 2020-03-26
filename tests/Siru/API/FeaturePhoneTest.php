@@ -75,10 +75,7 @@ class FeaturePhoneTest extends AbstractApiTest
         $this->transport
             ->expects($this->once())
             ->method('request')
-            ->willReturn([
-                403,
-                '{"error":{"code":403,"message":"Forbidden"}}'
-            ]);
+            ->willThrowException(ApiException::create(403, '{"error":{"code":403,"message":"Forbidden"}}'));
 
         $this->expectException(ApiException::class);
         $this->expectExceptionCode(403);

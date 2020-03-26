@@ -2,6 +2,7 @@
 namespace Siru\Tests\API;
 
 use Siru\API\OperationalStatus;
+use Siru\Exception\ApiException;
 
 class OperationalStatusTest extends AbstractApiTest
 {
@@ -23,17 +24,25 @@ class OperationalStatusTest extends AbstractApiTest
     public function apiStatusIsReported()
     {
         $this->transport
-            ->expects($this->exactly(3))
+            ->expects($this->once())
             ->method('request')
             ->with([], '/status', 'GET')
-            ->willReturnOnConsecutiveCalls(
-                [200, ''],
-                [500, ''],
-                [503, '']
-            );
+            ->willReturn([200, '']);
 
         $this->assertSame(200, $this->api->check());
-        $this->assertSame(500, $this->api->check());
+    }
+
+    /**
+     * @test
+     */
+    public function outageIsReported()
+    {
+        $this->transport
+            ->expects($this->once())
+            ->method('request')
+            ->with([], '/status', 'GET')
+            ->willThrowException(ApiException::create(503, ''));
+
         $this->assertSame(503, $this->api->check());
     }
 

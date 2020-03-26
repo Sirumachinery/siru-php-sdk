@@ -11,11 +11,28 @@ class ApiException extends AbstractApiException
     
     private $errorStack = [];
 
-    public function __construct($message = '', $code = 0, \Exception $e = null, $body ='', array $errorStack = [])
+    public static function create(?int $httpStatus, string $body) : ApiException
     {
-        parent::__construct($message, $code, $e, $body);
+        $json = json_decode($body, true);
 
-        $this->errorStack = $errorStack;
+        $message = 'API request failed.';
+        if (isset($json['error'])) {
+            if (is_string($json['error']) === true) {
+                $message = $json['error'];
+            } elseif (is_array($json['error']) === true && isset($json['error']['message']) === true ) {
+                $message = $json['error']['message'];
+            }
+        }
+
+        if(isset($json['errors'])) {
+            $errorStack = $json['errors'];
+        } else {
+            $errorStack = [];
+        }
+
+        $exception = new self($message, $httpStatus ?: 0, null, $body);
+        $exception->errorStack = $errorStack;
+        return $exception;
     }
 
     /**

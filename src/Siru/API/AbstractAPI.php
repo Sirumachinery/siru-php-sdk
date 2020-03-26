@@ -2,7 +2,6 @@
 namespace Siru\API;
 
 use Siru\Exception\ApiException;
-use Siru\Exception\InvalidResponseException;
 use Siru\Signature;
 use Siru\Transport\TransportInterface;
 
@@ -38,31 +37,22 @@ abstract class AbstractAPI
      * 
      * @param  string $body
      * @return array|false
-     * @throws InvalidResponseException
      */
     protected function parseJson(string $body)
     {
-        if(empty($body) === false) {
-            $json = json_decode($body, true);
-        }
-
-        if(empty($json) === true) {
-            throw new InvalidResponseException("Invalid response from API", 0, null, $body);
-        }
-
-        return $json;
+        return json_decode($body, true);
     }
 
     /**
      * Creates an exception if error has occurred.
      *
      * @param  int|null       $httpStatus
-     * @param  array          $json
      * @param  string         $body
      * @return ApiException
      */
-    protected function createException(?int $httpStatus, $json, string $body) : ApiException
+    protected function createException(?int $httpStatus, string $body) : ApiException
     {
+        $json = $this->parseJson($body);
         if(isset($json['error']['message'])) {
             $message = $json['error']['message'];
         } else {
