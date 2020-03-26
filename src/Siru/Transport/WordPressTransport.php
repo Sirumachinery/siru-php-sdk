@@ -3,7 +3,7 @@
 namespace Siru\Transport;
 
 use Siru\Exception\ApiException;
-use Siru\Exception\TransferException;
+use Siru\Exception\TransportException;
 
 class WordPressTransport implements TransportInterface
 {
@@ -41,7 +41,7 @@ class WordPressTransport implements TransportInterface
         }
 
         if (is_wp_error($response) === true) {
-            throw new TransferException($response->get_error_message(), $response->get_error_code());
+            throw new TransportException($response->get_error_message(), $response->get_error_code());
         }
 
         /** @var int|string $httpCode Http status code or empty string */
@@ -50,7 +50,7 @@ class WordPressTransport implements TransportInterface
         $body = wp_remote_retrieve_body($response);
 
         if (empty($httpCode) === true) {
-            throw new TransferException();
+            throw new TransportException();
         }
 
         if ($httpCode < 200 || $httpCode > 299) {

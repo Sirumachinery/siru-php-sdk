@@ -7,7 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Siru\Exception\ApiException;
-use Siru\Exception\TransferException;
+use Siru\Exception\TransportException;
 
 class GuzzleTransport implements TransportInterface
 {
@@ -77,7 +77,7 @@ class GuzzleTransport implements TransportInterface
                     throw ApiException::create($response->getStatusCode(), (string) $response->getBody());
                 }
             }
-            throw new TransferException($e->getMessage());
+            throw new TransportException($e->getMessage());
         }
     }
 
