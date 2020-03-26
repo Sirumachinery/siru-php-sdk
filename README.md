@@ -1,15 +1,22 @@
 # Siru Payment Gateway PHP SDK
 
-Siru Payment Gateway Software development kit for PHP 5.6+.
+Siru Payment Gateway Software development kit for PHP 7.1+.
+
+![Tests](https://github.com/Sirumachinery/siru-php-sdk/workflows/Tests/badge.svg)
+
+## Requirements
+
+- PHP 7.1+
+- HTTP client supported by one of the transports or your own transport. Built-in transports support Guzzle and Wordpress HTTP API.
 
 ## Installation
 
-The SDK is available at [Packagist](https://packagist.org) and it is recommended that you use [composer](http://getcomposer.org) to include it in your project. The SDK depends on GuzzleHttp for making HTTP requests.
+Easiest way to include the SDK is to use [composer](http://getcomposer.org). Open a command console, enter your project directory and execute:
 
-You can include SDK by executing command:
-```sh
+```console
 $ composer require sirumobile/siru-php-sdk:^1.0
 ```
+
 or by adding the following lines to your composer.json file:
 ```json
 {
@@ -30,7 +37,7 @@ Then go through our [API documentation](https://sirumobile.com/developers) to le
 
 Here is a simple example on how to create new transaction and redirect user to Siru payment flow:
 
-```PHP
+```php
 # web/checkout.php
 
 require_once('../vendor/autoload.php');
@@ -98,7 +105,7 @@ if(isset($_GET['siru_event']) == true) {
 
 It is recommended that you also setup a callback URL using notifyAfterSuccess, notifyAfterFailure and notifyAfterCancel fields where Siru will automatically send notification when payment status changes. This allows you to complete the transaction even if user fails to return to your checkout page for example due to a network failure.
 
-```PHP
+```php
 // /web/checkout/callback.php
 $signature = new \Siru\Signature($merchantId, $secret);
 
@@ -112,7 +119,7 @@ if($signature->isNotificationAuthentic($entityBodyAsJson)) {
 
 You can also use `\Siru\Signature` as standalone to create signature for your own code.
 
-```PHP
+```php
 /**
  * Imaginary example on calculating Signature without using \Siru\API.
  */
