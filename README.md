@@ -7,7 +7,7 @@ Siru Payment Gateway Software development kit for PHP 7.1+.
 ## Requirements
 
 - PHP 7.1+
-- HTTP client supported by one of the transports or your own transport. Built-in transports support Guzzle and Wordpress HTTP API.
+- HTTP client supported by one of the transports or your own transport. Built-in transports support Guzzle, Symfony HTTP client and Wordpress HTTP API.
 
 ## Installation
 
