@@ -25,7 +25,8 @@
     },
 
     "suggest": {
-        "guzzlehttp/guzzle": "^6.1"
+        "guzzlehttp/guzzle": "^6.1",
+        "symfony/http-client": "^5.0"
     },
 
     "autoload": {

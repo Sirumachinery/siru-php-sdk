@@ -77,7 +77,7 @@ class GuzzleTransport implements TransportInterface
                     throw ApiException::create($response->getStatusCode(), (string) $response->getBody());
                 }
             }
-            throw new TransportException($e->getMessage());
+            throw new TransportException($e->getMessage(), 0, $e);
         }
     }
 
