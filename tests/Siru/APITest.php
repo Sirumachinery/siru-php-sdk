@@ -43,27 +43,32 @@ class APITest extends TestCase
     /**
      * @test
      */
+    public function signatureGetterWorks()
+    {
+        $this->assertSame($this->signature, $this->api->getSignature());
+        $this->assertEquals($this->signature->getMerchantId(), $this->api->getDefaults('merchantId'), 'MerchantId was not automatically set from signature.');
+    }
+
+    /**
+     * @test
+     */
     public function endPointIsSetCorrectly()
     {
-        $transport = $this->createMock(TransportInterface::class);
-
-        $transport
-            ->expects($this->exactly(3))
+        $this->transport
+            ->expects($this->exactly(2))
             ->method('setBaseUrl')
             ->withConsecutive(
-                [API::ENDPOINT_STAGING],
                 [API::ENDPOINT_PRODUCTION],
                 ['https://lussu.tussi']
             );
 
-        $api = new API($this->signature, $transport);
-        $this->assertEquals(API::ENDPOINT_STAGING, $api->getEndpointUrl(), 'Endpoint should be staging by default.');
+        $this->assertEquals(API::ENDPOINT_STAGING, $this->api->getEndpointUrl(), 'Endpoint should be staging by default.');
 
-        $api->useProductionEndpoint();
-        $this->assertEquals(API::ENDPOINT_PRODUCTION, $api->getEndpointUrl(), 'Endpoint did not change as expected.');
+        $this->api->useProductionEndpoint();
+        $this->assertEquals(API::ENDPOINT_PRODUCTION, $this->api->getEndpointUrl(), 'Endpoint did not change as expected.');
 
-        $api->setEndpointUrl('https://lussu.tussi');
-        $this->assertEquals('https://lussu.tussi', $api->getEndpointUrl(), 'Endpoint did not change as expected.');
+        $this->api->setEndpointUrl('https://lussu.tussi');
+        $this->assertEquals('https://lussu.tussi', $this->api->getEndpointUrl(), 'Endpoint did not change as expected.');
     }
 
     /**

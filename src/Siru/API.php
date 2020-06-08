@@ -164,6 +164,16 @@ class API
     }
 
     /**
+     * Get Signature object for this API.
+     *
+     * @return Signature
+     */
+    public function getSignature() : Signature
+    {
+        return $this->signature;
+    }
+
+    /**
      * Returns Payment API object.
      * All default values set using setDefaults() are automatically passed to Payment API object.
      * 
