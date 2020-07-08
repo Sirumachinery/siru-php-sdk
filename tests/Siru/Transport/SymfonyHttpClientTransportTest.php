@@ -65,4 +65,50 @@ class SymfonyHttpClientTransportTest extends TestCase
         $this->assertEquals('xooxer', $data[1]);
     }
 
+    /**
+     * @test
+     */
+    public function sendsDeleteRequest()
+    {
+        $requestCount = 0;
+        $mock = new MockHttpClient(function($method, $url, $options) use (&$requestCount) {
+            $this->assertEquals('DELETE', $method);
+            $this->assertEquals('https://localhost/test?foo=bar', $url);
+            $requestCount++;
+            return new MockResponse('', ['http_code' => 204]);
+        });
+
+        $transport = new SymfonyHttpClientTransport();
+        $transport->setHttpClient($mock);
+        $transport->setBaseUrl('https://localhost');
+
+        $data = $transport->request(['foo' => 'bar'], '/test', 'DELETE');
+        $this->assertEquals(1, $requestCount, 'No request was sent.');
+        $this->assertEquals(204, $data[0]);
+    }
+
+    /**
+     * @test
+     */
+    public function sendsPostRequest()
+    {
+        $requestCount = 0;
+        $mock = new MockHttpClient(function($method, $url, $options) use (&$requestCount) {
+            $this->assertEquals('POST', $method);
+            $this->assertEquals('https://localhost/test', $url);
+            $this->assertEquals('{"foo":"bar"}', $options['body']);
+            $requestCount++;
+            return new MockResponse('{"success":true}', ['http_code' => 201]);
+        });
+
+        $transport = new SymfonyHttpClientTransport();
+        $transport->setHttpClient($mock);
+        $transport->setBaseUrl('https://localhost');
+
+        $data = $transport->request(['foo' => 'bar'], '/test', 'POST');
+        $this->assertEquals(1, $requestCount, 'No request was sent.');
+        $this->assertEquals(201, $data[0]);
+        $this->assertEquals('{"success":true}', $data[1]);
+    }
+
 }

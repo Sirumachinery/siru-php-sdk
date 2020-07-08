@@ -33,7 +33,7 @@ class PurchaseStatusTest extends AbstractApiTest
                     isset($fields['signature']) &&
                     $fields['uuid'] === $uuid &&
                     $fields['merchantId'] === 1;
-            }), '/payment/byUuid.json')
+            }), '/payment/byUuid.json', 'GET')
             ->willReturn([
                 200,
                 json_encode($this->getPurchaseJson())
@@ -142,6 +142,30 @@ class PurchaseStatusTest extends AbstractApiTest
         $purchases = $this->api->findPurchasesByReference($reference, $subMerchant);
 
         $this->assertEquals([], $purchases);
+    }
+
+    /**
+     * @test
+     */
+    public function cancelsPurchaseByUuid()
+    {
+        $uuid = '09b755cb-9697-4c8b-8ebb-9d54170739be';
+        $this->transport
+            ->expects($this->once())
+            ->method('request')
+            ->with($this->callback(function(array $fields) use ($uuid) {
+                return isset($fields['uuid']) &&
+                    isset($fields['merchantId']) &&
+                    isset($fields['signature']) &&
+                    $fields['uuid'] === $uuid &&
+                    $fields['merchantId'] === 1;
+            }), '/payment/byUuid.json', 'DELETE')
+            ->willReturn([
+                204,
+                ''
+            ]);
+
+        $this->api->cancelPurchaseByUuid($uuid);
     }
 
     private function getPurchaseJson() : array

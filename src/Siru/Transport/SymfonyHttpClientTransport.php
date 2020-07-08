@@ -51,7 +51,7 @@ class SymfonyHttpClientTransport implements TransportInterface
     public function request(array $fields, string $endPoint, string $method = 'GET'): array
     {
         $options = [];
-        if ($method === 'GET') {
+        if ($method === 'GET' || $method === 'DELETE') {
             $options['query'] = $fields;
         } elseif ($method === 'POST') {
             $options['json'] = $fields;

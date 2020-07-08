@@ -137,4 +137,19 @@ class PurchaseStatus extends AbstractAPI
         return $json['purchases'];
     }
 
+    /**
+     * Attempt to cancel pending purchase by UUID.
+     *
+     * If the purchase state does not allow purchase to be canceled, an ApiException is thrown.
+     *
+     * @param  string $uuid Uuid received from Payment API
+     * @throws ApiException
+     */
+    public function cancelPurchaseByUuid(string $uuid) : void
+    {
+        $fields = $this->signature->signMessage([ 'uuid' => $uuid ]);
+
+        list($httpStatus, $body) = $this->transport->request($fields, '/payment/byUuid.json', 'DELETE');
+    }
+
 }
