@@ -27,7 +27,7 @@ class WordPressTransport implements TransportInterface
     public function request(array $fields, string $endPoint, string $method = 'GET') : array
     {
 
-        if ($method === 'GET') {
+        if ($method === 'GET' || $method === 'DELETE') {
             $query = http_build_query($fields);
             $url = $this->baseUrl . $endPoint . '?' . $query;
             $response = wp_remote_get($url);
