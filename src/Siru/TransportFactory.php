@@ -15,7 +15,7 @@ class TransportFactory
      */
     public static function create() : TransportInterface
     {
-        if (class_exists('\GuzzleHttp\ClientInterface') === true) {
+        if (interface_exists('\GuzzleHttp\ClientInterface') === true) {
             return new GuzzleTransport();
         }
         if (class_exists('\Symfony\Component\HttpClient\HttpClient') === true) {
