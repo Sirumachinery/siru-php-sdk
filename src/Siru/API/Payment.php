@@ -47,9 +47,12 @@ class Payment extends AbstractAPI
         ],
         'variant2' => [
             'instantPay',
+            'interval',
+            'repeat',
             'serviceGroup',
             'taxClass',
-            'title'
+            'title',
+            'trialPeriod'
         ],
         'variant3' => [],
         'variant4' => [
